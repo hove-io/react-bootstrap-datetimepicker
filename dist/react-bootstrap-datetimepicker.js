@@ -106,12 +106,50 @@ return /******/ (function(modules) { // webpackBootstrap
 	var DateTimeField = (function (_Component) {
 	  _inherits(DateTimeField, _Component);
 
-	  function DateTimeField() {
+	  _createClass(DateTimeField, null, [{
+	    key: "defaultProps",
+	    value: {
+	      dateTime: (0, _moment2["default"])().format("x"),
+	      format: "x",
+	      showToday: true,
+	      viewMode: "days",
+	      daysOfWeekDisabled: [],
+	      size: _ConstantsJs2["default"].SIZE_MEDIUM,
+	      mode: _ConstantsJs2["default"].MODE_DATETIME,
+	      zIndex: 999,
+	      onChange: function onChange(x) {
+	        console.log(x);
+	      }
+	    },
+	    enumerable: true
+	  }, {
+	    key: "propTypes",
+	    value: {
+	      dateTime: _propTypes2["default"].oneOfType([_propTypes2["default"].string, _propTypes2["default"].number]),
+	      onChange: _propTypes2["default"].func,
+	      format: _propTypes2["default"].string,
+	      inputProps: _propTypes2["default"].object,
+	      inputFormat: _propTypes2["default"].string,
+	      defaultText: _propTypes2["default"].string,
+	      mode: _propTypes2["default"].oneOf([_ConstantsJs2["default"].MODE_DATE, _ConstantsJs2["default"].MODE_DATETIME, _ConstantsJs2["default"].MODE_TIME]),
+	      minDate: _propTypes2["default"].object,
+	      maxDate: _propTypes2["default"].object,
+	      direction: _propTypes2["default"].string,
+	      showToday: _propTypes2["default"].bool,
+	      viewMode: _propTypes2["default"].string,
+	      zIndex: _propTypes2["default"].number,
+	      size: _propTypes2["default"].oneOf([_ConstantsJs2["default"].SIZE_SMALL, _ConstantsJs2["default"].SIZE_MEDIUM, _ConstantsJs2["default"].SIZE_LARGE]),
+	      daysOfWeekDisabled: _propTypes2["default"].arrayOf(_propTypes2["default"].number)
+	    },
+	    enumerable: true
+	  }]);
+
+	  function DateTimeField(props) {
 	    var _this = this;
 
 	    _classCallCheck(this, DateTimeField);
 
-	    _get(Object.getPrototypeOf(DateTimeField.prototype), "constructor", this).apply(this, arguments);
+	    _get(Object.getPrototypeOf(DateTimeField.prototype), "constructor", this).call(this, props);
 
 	    this.resolvePropsInputFormat = function () {
 	      if (_this.props.inputFormat) {
@@ -340,7 +378,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this.setState({
 	          showPicker: true
 	        });
-	        gBCR = _this.refs.dtpbutton.getBoundingClientRect();
+	        gBCR = _this.dtpbutton.current.getBoundingClientRect();
 	        classes = {
 	          "bootstrap-datetimepicker-widget": true,
 	          "dropdown-menu": true
@@ -349,11 +387,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	          top: gBCR.top + window.pageYOffset - document.documentElement.clientTop,
 	          left: gBCR.left + window.pageXOffset - document.documentElement.clientLeft
 	        };
-	        offset.top = offset.top + _this.refs.datetimepicker.offsetHeight;
+	        offset.top = offset.top + _this.datetimepicker.current.offsetHeight;
 	        scrollTop = window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
-	        placePosition = _this.props.direction === "up" ? "top" : _this.props.direction === "bottom" ? "bottom" : _this.props.direction === "auto" ? offset.top + _this.refs.widget.offsetHeight > window.offsetHeight + scrollTop && _this.refs.widget.offsetHeight + _this.refs.datetimepicker.offsetHeight > offset.top ? "top" : "bottom" : void 0;
+	        placePosition = _this.props.direction === "up" ? "top" : _this.props.direction === "bottom" ? "bottom" : _this.props.direction === "auto" ? offset.top + _this.widget.current.offsetHeight > window.offsetHeight + scrollTop && _this.widget.current.offsetHeight + _this.datetimepicker.current.offsetHeight > offset.top ? "top" : "bottom" : void 0;
 	        if (placePosition === "top") {
-	          offset.top = -_this.refs.widget.offsetHeight - _this.clientHeight - 2;
+	          offset.top = -_this.widget.current.offsetHeight - _this.clientHeight - 2;
 	          classes.top = true;
 	          classes.bottom = false;
 	          classes["pull-right"] = true;
@@ -413,6 +451,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return _react2["default"].createElement("span", null);
 	      }
 	    };
+
+	    this.widget = _react2["default"].createRef();
+	    this.datetimepicker = _react2["default"].createRef();
+	    this.dtpbutton = _react2["default"].createRef();
 	  }
 
 	  _createClass(DateTimeField, [{
@@ -432,7 +474,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          maxDate: this.props.maxDate,
 	          minDate: this.props.minDate,
 	          mode: this.props.mode,
-	          ref: "widget",
+	          ref: this.widget,
 	          selectedDate: this.state.selectedDate,
 	          setSelectedDate: this.setSelectedDate,
 	          setSelectedHour: this.setSelectedHour,
@@ -456,52 +498,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }),
 	        _react2["default"].createElement(
 	          "div",
-	          { className: "input-group date " + this.size(), ref: "datetimepicker" },
+	          { className: "input-group date " + this.size(), ref: this.datetimepicker },
 	          _react2["default"].createElement("input", _extends({ className: "form-control", onChange: this.onChange, type: "text", value: this.state.inputValue }, this.props.inputProps)),
 	          _react2["default"].createElement(
 	            "span",
-	            { className: "input-group-addon", onBlur: this.onBlur, onClick: this.onClick, ref: "dtpbutton" },
+	            { className: "input-group-addon", onBlur: this.onBlur, onClick: this.onClick, ref: this.dtpbutton },
 	            _react2["default"].createElement("span", { className: (0, _classnames2["default"])("glyphicon", this.state.buttonIcon) })
 	          )
 	        )
 	      );
 	    }
-	  }], [{
-	    key: "defaultProps",
-	    value: {
-	      dateTime: (0, _moment2["default"])().format("x"),
-	      format: "x",
-	      showToday: true,
-	      viewMode: "days",
-	      daysOfWeekDisabled: [],
-	      size: _ConstantsJs2["default"].SIZE_MEDIUM,
-	      mode: _ConstantsJs2["default"].MODE_DATETIME,
-	      zIndex: 999,
-	      onChange: function onChange(x) {
-	        console.log(x);
-	      }
-	    },
-	    enumerable: true
-	  }, {
-	    key: "propTypes",
-	    value: {
-	      dateTime: _propTypes2["default"].oneOfType([_propTypes2["default"].string, _propTypes2["default"].number]),
-	      onChange: _propTypes2["default"].func,
-	      format: _propTypes2["default"].string,
-	      inputProps: _propTypes2["default"].object,
-	      inputFormat: _propTypes2["default"].string,
-	      defaultText: _propTypes2["default"].string,
-	      mode: _propTypes2["default"].oneOf([_ConstantsJs2["default"].MODE_DATE, _ConstantsJs2["default"].MODE_DATETIME, _ConstantsJs2["default"].MODE_TIME]),
-	      minDate: _propTypes2["default"].object,
-	      maxDate: _propTypes2["default"].object,
-	      direction: _propTypes2["default"].string,
-	      showToday: _propTypes2["default"].bool,
-	      viewMode: _propTypes2["default"].string,
-	      zIndex: _propTypes2["default"].number,
-	      size: _propTypes2["default"].oneOf([_ConstantsJs2["default"].SIZE_SMALL, _ConstantsJs2["default"].SIZE_MEDIUM, _ConstantsJs2["default"].SIZE_LARGE]),
-	      daysOfWeekDisabled: _propTypes2["default"].arrayOf(_propTypes2["default"].number)
-	    },
-	    enumerable: true
 	  }]);
 
 	  return DateTimeField;
