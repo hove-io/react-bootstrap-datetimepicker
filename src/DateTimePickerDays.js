@@ -83,8 +83,6 @@ export default class DateTimePickerDays extends Component {
             </tr>
 
             <tr>
-              <th className="dow">Dim</th>
-
               <th className="dow">Lun</th>
 
               <th className="dow">Mar</th>
@@ -96,6 +94,8 @@ export default class DateTimePickerDays extends Component {
               <th className="dow">Ven</th>
 
               <th className="dow">Sam</th>
+
+              <th className="dow">Dim</th>
             </tr>
           </thead>
 
